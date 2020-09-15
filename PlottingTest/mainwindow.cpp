@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    MainWindow::makePlot2();
+    MainWindow::makeDataPlot(1500);
 }
 
 MainWindow::~MainWindow()
@@ -20,7 +20,7 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::makePlot2()
+void MainWindow::makePlot1()
 {
     ui->customPlot->legend->setVisible(true);
     ui->customPlot->legend->setFont(QFont("Helvetica", 9));
@@ -58,23 +58,57 @@ void MainWindow::makePlot2()
     ui->customPlot->axisRect()->setupFullAxesBox();
 }
 
-void MainWindow::makePlot1()
+void MainWindow::makeDataPlot(int time_ms)
 {
     // generate some data:
-    QVector<double> x(101), y(101); // initialize with entries 0..100
-    for (int i=0; i<101; ++i)
+    QVector<double> x(time_ms), y(time_ms); // initialize with entries 0..100
+    float* PT1000_08_T = getData(time_ms);
+    for (int i=0; i<time_ms; ++i)
     {
-      x[i] = i/50.0 - 1; // x goes from -1 to 1
-      y[i] = x[i]*x[i]; // let's plot a quadratic function
+      x[i] = i; // x goes from 0s - 9.9s
+      y[i] = PT1000_08_T[i]; //Temp of sensor
     }
     // create graph and assign data to it:
     ui->customPlot->addGraph();
     ui->customPlot->graph(0)->setData(x, y);
     // give the axes some labels:
-    ui->customPlot->xAxis->setLabel("x");
-    ui->customPlot->yAxis->setLabel("y");
+    ui->customPlot->xAxis->setLabel("Time [ms]");
+    ui->customPlot->yAxis->setLabel("Temperatur [C]");
     // set axes ranges, so we see all data:
-    ui->customPlot->xAxis->setRange(-1, 1);
-    ui->customPlot->yAxis->setRange(0, 1);
+    ui->customPlot->xAxis->setRange(0, time_ms);
+    ui->customPlot->yAxis->setRange(0, 12);
     ui->customPlot->replot();
+    qDebug() << "done baby";
+}
+
+float* MainWindow::getData(int ms)
+{
+    QFile file("C:/Users/janni/Desktop/OpenData/OpenData/HP_50.csv");   //make this sexier
+
+    if (!file.open(QFile::ReadOnly | QFile::Text)){
+        qDebug() << "file not open";
+        return 0;
+    }
+
+    QTextStream in(&file);
+    QString* read_data = new QString[ms];    //data for time after 0.i seconds
+
+    for(int i=0; i<25; i++){
+        read_data[0] = in.readLine(); //make so that data begin somewhere besides 25th line. (while)
+    }
+    for(int i=1; i<ms; i++){
+        read_data[i] = in.readLine();
+    }
+    file.close();
+
+
+    float* T_sensor = new float[ms];
+    QStringList temp;
+
+    for(int i=0; i<ms; i++){
+        temp = read_data[i].split(",");
+        T_sensor[i] = temp[25].toFloat();  // column 25 is PT1000_07
+        //qDebug() << "t=" << i << ": " << T_sensor[i];
+    }
+    return T_sensor;
 }

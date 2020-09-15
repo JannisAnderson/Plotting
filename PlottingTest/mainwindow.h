@@ -15,12 +15,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void getData();
-
 private slots:
     void makePlot1();
-    void makePlot2();
-
+    void makeDataPlot(int);
+    float* getData(int);
 private:
     Ui::MainWindow *ui;
 };
