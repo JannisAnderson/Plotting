@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ISM Graphing</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>snowflake.ico</normaloff>snowflake.ico</iconset>
   </property>
   <widget class="QCustomPlot" name="customPlot"/>
  </widget>

@@ -80,6 +80,7 @@ void MainWindow::makeDataPlot(int time_ms)
         ui->customPlot->graph()->setPen(pen);
         ui->customPlot->graph()->setData(x,y);
         ui->customPlot->graph()->setName(name.append(QString::number(i)));
+        ui->customPlot->graph()->setSelectable(stWhole);
     }
 
     //Legend
