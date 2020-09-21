@@ -89,6 +89,7 @@
 #  include <QtNumeric>
 #  include <QtWidgets/QWidget>
 #  include <QtPrintSupport/QtPrintSupport>
+#  include <QPrinter>                        //why was this missing????
 #endif
 
 class QCPPainter;

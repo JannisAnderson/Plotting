@@ -80,8 +80,13 @@ void MainWindow::makeDataPlot(int time_ms)
         ui->customPlot->graph()->setPen(pen);
         ui->customPlot->graph()->setData(x,y);
         ui->customPlot->graph()->setName(name.append(QString::number(i)));
+        //ui->customPlot->graph()->setSelectable(stWhole);
     }
-
+    //Title
+    ui->customPlot->plotLayout()->insertRow(0);
+    QCPTextElement *title = new QCPTextElement(ui->customPlot,"PT1000 Data", 20);
+    //title->setFont(QFont::Fantasy);  figure this out
+    ui->customPlot->plotLayout()->addElement(0,0, title);
     //Legend
     ui->customPlot->legend->setVisible(true);
     ui->customPlot->legend->setFont(QFont("Helvetica", 9));
@@ -93,6 +98,9 @@ void MainWindow::makeDataPlot(int time_ms)
     ui->customPlot->xAxis->setRange(0, time_ms);
     ui->customPlot->yAxis->setRange(0, 13);
     ui->customPlot->replot();
+
+    ui->customPlot->savePdf("C:/Users/janni/Desktop/Plotting/PlottingTest/test.pdf", 1920, 1080);
+
     qDebug() << "done baby";
 }
 
