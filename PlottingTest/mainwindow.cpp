@@ -4,6 +4,8 @@
 #include <fstream>
 #include <string>
 #include <QDebug>
+#include <QFileDialog>
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -11,8 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    MainWindow::getData();
-    MainWindow::makeDataPlot(2000);
 }
 
 MainWindow::~MainWindow()
@@ -99,14 +99,12 @@ void MainWindow::makeDataPlot(int time_ms)
     ui->customPlot->yAxis->setRange(0, 13);
     ui->customPlot->replot();
 
-    ui->customPlot->savePdf("C:/Users/janni/Desktop/Plotting/PlottingTest/test.pdf", 1920, 1080);
-
     qDebug() << "done baby";
 }
 
-void MainWindow::getData()
+void MainWindow::getData(QString loc)
 {
-    QFile file("C:/Users/janni/Desktop/OpenData/OpenData/HP_50.csv");   //make this sexier
+    QFile file(loc);   //make this sexier
 
     if (!file.open(QFile::ReadOnly | QFile::Text)){
         qDebug() << "file not open";
@@ -140,4 +138,33 @@ float* MainWindow::getPT1000Data(int sensorNum, int ms)
         //qDebug() << "t=" << i << ": " << T_sensor[i];
     }
     return T_sensor;
+}
+
+void MainWindow::on_add_File_triggered()
+{
+    QString file_path = QFileDialog::getOpenFileName(this, "Open File", saveLoc, "CSV Files (*.csv) ;; All Files (*.*)"); //QDir::homePath() works too
+
+    QFileInfo info(file_path);
+    saveLoc = info.dir().path();
+
+    if(file_path.contains(".csv"))
+    {
+        //QMessageBox::information(this, "File name", file_path);
+        MainWindow::getData(file_path);
+        MainWindow::makeDataPlot(2000);
+    }
+    else
+        QMessageBox::information(this, "Error", "No CSV file chosen.");
+}
+
+void MainWindow::on_save_as_pdf_triggered()
+{
+    QString loc_name = QFileDialog::getSaveFileName(this, "Save Graph", saveLoc, "PDF File (*.pdf) ;; All Files (*.*)");
+    ui->customPlot->savePdf(loc_name, 1920, 1080);
+}
+
+void MainWindow::on_save_as_jpg_triggered()
+{
+    QString loc_name = QFileDialog::getSaveFileName(this, "Save Graph", saveLoc, "JPG File (*.jpg) ;; All Files (*.*)");
+    ui->customPlot->saveJpg(loc_name, 1920, 1080);
 }

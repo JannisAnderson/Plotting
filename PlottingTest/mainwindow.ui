@@ -18,6 +18,64 @@
     <normaloff>snowflake.ico</normaloff>snowflake.ico</iconset>
   </property>
   <widget class="QCustomPlot" name="customPlot"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuAdd_File">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <widget class="QMenu" name="menuSaveFile">
+     <property name="title">
+      <string>Save Graph</string>
+     </property>
+     <addaction name="save_as_pdf"/>
+     <addaction name="save_as_jpg"/>
+    </widget>
+    <addaction name="add_File"/>
+    <addaction name="menuSaveFile"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionPT1000_Data"/>
+    <addaction name="actioncan_add_other_stuff_in_future"/>
+   </widget>
+   <addaction name="menuAdd_File"/>
+   <addaction name="menuView"/>
+  </widget>
+  <action name="add_File">
+   <property name="text">
+    <string>Add Data</string>
+   </property>
+  </action>
+  <action name="save_as_pdf">
+   <property name="text">
+    <string>Save as .pdf</string>
+   </property>
+  </action>
+  <action name="save_as_jpg">
+   <property name="text">
+    <string>Save as .jpg</string>
+   </property>
+  </action>
+  <action name="actionPT1000_Data">
+   <property name="text">
+    <string>PT1000 Data</string>
+   </property>
+  </action>
+  <action name="actioncan_add_other_stuff_in_future">
+   <property name="text">
+    <string>can add other stuff in future</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

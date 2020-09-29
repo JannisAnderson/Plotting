@@ -16,14 +16,19 @@ public:
     ~MainWindow();
 
 private slots:
-    void getData();
+    void getData(QString loc);
     void makePlot1();
     void makeDataPlot(int);
     float* getPT1000Data(int, int);
+    void on_add_File_triggered();
+    void on_save_as_pdf_triggered();
+    void on_save_as_jpg_triggered();
+
 private:
     Ui::MainWindow *ui;
 
     QString* read_data;
+    QString saveLoc = "C://";
 
     int ColorValues[56] {
             0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF, 0x000000,
