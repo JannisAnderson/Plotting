@@ -99,7 +99,7 @@ void MainWindow::makeDataPlot(int time_ms)
     ui->customPlot->yAxis->setRange(0, 13);
     ui->customPlot->replot();
 
-    qDebug() << "done baby";
+    //qDebug() << "done baby";
 }
 
 void MainWindow::getData(QString loc)
